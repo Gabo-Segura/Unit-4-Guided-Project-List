@@ -6,15 +6,14 @@
 //  Copyright © 2022 Gabo. All rights reserved.
 //
 
-
 import UIKit
 
 class ToDoTableViewController: UITableViewController, ToDoCellDelegate {
     
+    
     func checkMarkTapped(_ sender: ToDoCell) {
         if let indexPath = tableView.indexPath(for: sender) {
             var todo = todos[indexPath.row]
-            //todo.isComplete.toggle()
             todo.isComplete = !todo.isComplete
             todos[indexPath.row] = todo
             tableView.reloadRows(at: [indexPath], with: .automatic)
@@ -49,6 +48,7 @@ class ToDoTableViewController: UITableViewController, ToDoCellDelegate {
             "ToDoCellIdentifier", for: indexPath) as! ToDoCell
         
         let todo = todos[indexPath.row]
+        cell.delegate = self
         cell.titleLabel?.text = todo.title
         cell.isCompleteButton.isSelected = todo.isComplete
         
@@ -74,14 +74,14 @@ class ToDoTableViewController: UITableViewController, ToDoCellDelegate {
     
     @IBAction func unwindToToDoList(segue: UIStoryboardSegue) {
         guard segue.identifier == "saveUnwind" else { return }
-        let sourceViewController = segue.source as! ToDoDetailTableViewController
+        let sourceViewController = segue.source as! ToDoTableDetailViewController
         
         if let todo = sourceViewController.todo {
-            if let indexOfExistingToDo = todos.firstIndex(of: todo) {
+            if let indexOfExistingToDo = todos.index(of: todo){
                 todos[indexOfExistingToDo] = todo
                 tableView.reloadRows(at: [IndexPath(row:
                     indexOfExistingToDo, section: 0)], with: .automatic)
-            } else {
+            } else{
                 let newIndexPath = IndexPath(row: todos.count, section: 0)
                 todos.append(todo)
                 tableView.insertRows(at: [newIndexPath], with: .automatic)
@@ -89,6 +89,17 @@ class ToDoTableViewController: UITableViewController, ToDoCellDelegate {
         }
         ToDo.saveToDos(todos)
     }
+    
+    
+    /*override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showDetails" {
+            let todoViewController = segue.destination as! ToDoTableViewController
+            let indexPath = tableView.indexPathForSelectedRow!
+            let selectedTodo = todos[indexPath.row]
+            
+            todoViewController.todos = [selectedTodo]
+        }
+    }*/
     
     
 }

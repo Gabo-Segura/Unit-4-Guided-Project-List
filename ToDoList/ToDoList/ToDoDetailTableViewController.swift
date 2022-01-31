@@ -9,6 +9,18 @@
 
 import UIKit
 
+extension UIViewController {
+    func dismissKeyboard() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer( target:     self, action:    #selector(UIViewController.dismissKeyboardTouchOutside))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc private func dismissKeyboardTouchOutside() {
+        view.endEditing(true)
+    }
+}
+
 class ToDoTableDetailViewController: UITableViewController {
     
     @IBOutlet var saveButton: UIBarButtonItem!
@@ -44,7 +56,7 @@ class ToDoTableDetailViewController: UITableViewController {
         } else {
             dueDatePickerView.date = Date().addingTimeInterval(24*60*60)
         }
-        
+        self.dismissKeyboard()
         updateDueDateLabel(date: dueDatePickerView.date)
         updateSaveButtonState()
     }
@@ -99,6 +111,8 @@ class ToDoTableDetailViewController: UITableViewController {
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
         guard segue.identifier == "saveUnwind" else { return }
         
         let title = titleTextField.text!

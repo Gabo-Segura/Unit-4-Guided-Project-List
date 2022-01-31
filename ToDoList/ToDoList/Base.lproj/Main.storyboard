@@ -18,6 +18,53 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ToDoCellIdentifier" id="7sy-Gq-QzZ" customClass="ToDoCell" customModule="ToDoList" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7sy-Gq-QzZ" id="RNn-o1-bbf">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="hfR-ef-8Hi">
+                                            <rect key="frame" x="30" y="8" width="315" height="27.5"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="checkBoxBtn" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HNL-v8-pJz">
+                                                    <rect key="frame" x="0.0" y="0.0" width="30" height="27.5"/>
+                                                    <accessibility key="accessibilityConfiguration" identifier="checkBoxBtn"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="30" id="4OU-u0-JDb"/>
+                                                        <constraint firstAttribute="height" constant="30" id="SX7-yp-J8q"/>
+                                                    </constraints>
+                                                    <state key="normal" image="circleLine"/>
+                                                    <state key="selected" image="circleFull"/>
+                                                    <connections>
+                                                        <action selector="isCompleteButtonTapped:" destination="7sy-Gq-QzZ" eventType="touchUpInside" id="2vC-QP-O9e"/>
+                                                    </connections>
+                                                </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zgm-ow-qaB">
+                                                    <rect key="frame" x="50" y="0.0" width="265" height="27.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="hfR-ef-8Hi" firstAttribute="leading" secondItem="RNn-o1-bbf" secondAttribute="leading" constant="30" id="FDV-u8-tqh"/>
+                                        <constraint firstAttribute="trailing" secondItem="hfR-ef-8Hi" secondAttribute="trailing" constant="30" id="Lfb-AT-KUg"/>
+                                        <constraint firstAttribute="bottom" secondItem="hfR-ef-8Hi" secondAttribute="bottom" constant="8" id="OrB-cP-S02"/>
+                                        <constraint firstItem="hfR-ef-8Hi" firstAttribute="top" secondItem="RNn-o1-bbf" secondAttribute="top" constant="8" id="QOM-Sr-BTz"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="isCompleteButton" destination="HNL-v8-pJz" id="mlB-QK-0wB"/>
+                                    <outlet property="titleLabel" destination="Zgm-ow-qaB" id="jJx-zI-FXO"/>
+                                    <segue destination="iaG-2I-o4n" kind="show" identifier="showDetails" id="WpV-Fw-cAX"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="WqG-qh-z5w" id="3Ec-Wm-SDL"/>
                             <outlet property="delegate" destination="WqG-qh-z5w" id="Ydj-7n-s28"/>
@@ -180,12 +227,12 @@
                     <navigationItem key="navigationItem" title="New ToDo" id="TdL-MT-Bh8">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="nlX-k0-HIq">
                             <connections>
-                                <segue destination="jrL-NV-RMl" kind="unwind" identifier="saveUnwind" unwindAction="unwindToToDoListWithSegue:" id="379-Ty-K8Q"/>
+                                <segue destination="jrL-NV-RMl" kind="unwind" identifier="" unwindAction="unwindToToDoListWithSegue:" id="379-Ty-K8Q"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="Pp9-SN-IYt">
                             <connections>
-                                <segue destination="jrL-NV-RMl" kind="unwind" unwindAction="unwindToToDoListWithSegue:" id="KrQ-gp-odY"/>
+                                <segue destination="jrL-NV-RMl" kind="unwind" identifier="saveUnwind" unwindAction="unwindToToDoListWithSegue:" id="KrQ-gp-odY"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -201,7 +248,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yhj-QM-Eey" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="jrL-NV-RMl" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1174" y="676"/>
+            <point key="canvasLocation" x="1174" y="827"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="0Jb-6i-WM7">
@@ -240,4 +287,7 @@
         <image name="circleFull" width="33" height="33"/>
         <image name="circleLine" width="33" height="33"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="WpV-Fw-cAX"/>
+    </inferredMetricsTieBreakers>
 </document>
